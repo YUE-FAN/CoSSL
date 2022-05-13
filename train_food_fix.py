@@ -140,7 +140,7 @@ def main():
     train_criterion = FixMatch_Loss()
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=args.lr, weight_decay=args.wd, momentum=0.9, nesterov=True)
-    ema_optimizer = WeightEMA(model, ema_model, alpha=args.ema_decay)
+    ema_optimizer = WeightEMA(model, ema_model, args.lr, alpha=args.ema_decay)
     warmup_steps = args.warmup_epochs * args.val_iteration  # int
     scheduler = stepLR_with_warmup(optimizer, warmup_steps, args.val_iteration)
     # total_steps = args.val_iteration * args.epochs
