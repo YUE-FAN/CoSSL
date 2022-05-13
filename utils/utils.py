@@ -24,7 +24,7 @@ def make_imb_data(max_num, class_num, gamma):
             class_num_list.append(int(max_num * np.power(mu, i)))
     if gamma < 0:
         class_num_list = class_num_list[::-1]
-    print(class_num_list)
+    # print(class_num_list)
     return list(class_num_list)
 
 

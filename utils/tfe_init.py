@@ -8,7 +8,8 @@ import torch.optim as optim
 import torch.utils.data as data
 import torch.nn.functional as F
 
-from utils import Bar, AverageMeter, WeightEMA
+from utils import AverageMeter, WeightEMA
+from progress.bar import Bar as Bar
 
 __all__ = ['classifier_warmup']
 
@@ -90,14 +91,16 @@ def TFE(labeled_loader, unlabeled_loader, tfe_model, num_classes, num_samples_pe
                 labeled_target_stack = torch.cat((labeled_target_stack, targets), 0)
                 labeled_cls_prob_stack = torch.cat((labeled_cls_prob_stack, cls_probs), 0)
         # extract features from unlabeled data
-        for batch_idx, ((inputs_w, inputs_s, _), _, _) in enumerate(unlabeled_loader):
-            if unlabeled_loader.dataset.transform.transform2 is not None:  # FixMatch, ReMixMatch
+        for batch_idx, (data_batch, _, _) in enumerate(unlabeled_loader):
+            if hasattr(unlabeled_loader.dataset.transform, 'transform2'):  # FixMatch, ReMixMatch
+                inputs_w, inputs_s, _ = data_batch
                 inputs_s = inputs_s.cuda()
                 inputs_w = inputs_w.cuda()
 
                 _, _, features = tfe_model(inputs_s, return_feature=True)
                 logits, _ = tfe_model(inputs_w)
             else:  # MixMatch
+                inputs_w, _ = data_batch
                 inputs_w = inputs_w.cuda()
                 logits, _, features = tfe_model(inputs_w, return_feature=True)
             cls_probs = torch.softmax(logits, dim=1)

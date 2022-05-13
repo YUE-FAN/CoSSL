@@ -127,7 +127,7 @@ def main():
                                           num_workers=0, drop_last=True)
     unlabeled_trainloader = data.DataLoader(train_unlabeled_set, batch_size=args.batch_size, shuffle=True,
                                             num_workers=0, drop_last=True)
-    crt_full_loader = data.DataLoader(crt_full_set, batch_size=args.crt_u_ratio * args.batch_size, shuffle=True,
+    crt_full_loader = data.DataLoader(crt_full_set, batch_size=args.batch_size, shuffle=True,
                                       num_workers=0, drop_last=True)
     test_loader = data.DataLoader(test_set, batch_size=100, shuffle=False, num_workers=4)
 
@@ -162,8 +162,8 @@ def main():
         group['weight_decay'] = 0.02 * args.lr
 
     logger = Logger(os.path.join(args.out, 'log.txt'), title='fix-cifar')
-    logger.set_names(['Train Loss', 'Train Loss X', 'Train Loss U', 'Train Loss Teacher', 'Total Acc.', 'Teacher Acc.',
-                      'Test Loss', 'Test Acc'])
+    logger.set_names(['Train Loss', 'Train Loss X', 'Train Loss U', 'Train Loss Teacher', 'Mask', 'Total Acc.', 'Used Acc.', 'Teacher Acc.',
+                      'Test Loss', 'Test Acc.'])
 
     # Define a new classifier for TFE branch
     teacher_head = nn.Linear(model.output.in_features, num_class, bias=True).cuda()
@@ -177,13 +177,13 @@ def main():
             non_wd_params.append(param)
         else:
             wd_params.append(param)
-    param_list = [{'params': wd_params, 'weight_decay': args.weight_decay}, {'params': non_wd_params, 'weight_decay': 0}]
+    param_list = [{'params': wd_params, 'weight_decay': args.wd_tfe}, {'params': non_wd_params, 'weight_decay': 0}]
     teacher_optimizer = optim.Adam(param_list, lr=args.lr)
     ema_teacher_optimizer = WeightEMA(teacher_head, ema_teacher, args.lr, alpha=args.ema_decay, wd=False)
 
     # TFE warmup
     init_teacher, init_ema_teacher = classifier_warmup(copy.deepcopy(ema_model), train_labeled_set, train_unlabeled_set,
-                                                       test_set, N_SAMPLES_PER_CLASS, num_class, use_cuda)
+                                                       N_SAMPLES_PER_CLASS, num_class, use_cuda, args)
     teacher_head.weight.data.copy_(init_teacher.output.weight.data)
     teacher_head.bias.data.copy_(init_teacher.output.bias.data)
     ema_teacher.weight.data.copy_(init_ema_teacher.output.weight.data)
