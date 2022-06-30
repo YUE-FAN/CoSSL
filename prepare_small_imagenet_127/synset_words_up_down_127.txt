@@ -1,0 +1,127 @@
+n07683786 loaf of bread
+n07707451 vegetable
+n03597469 jewelry
+n03664943 ligament
+n13134947 fruit
+n02954340 cap
+n01689411 anguid lizard
+n02606384 damselfish
+n09289709 globule
+n03961939 platform
+n03764276 military vehicle
+n12992868 fungus
+n03183080 device
+n01639765 frog
+n01909422 coelenterate
+n01698434 alligator
+n03405725 furniture
+n03278248 electronic equipment
+n04128837 sailing vessel
+n03964744 plaything
+n02856463 board
+n04317420 stick
+n03476083 hairpiece
+n04451818 tool
+n01685439 teiid lizard
+n02924116 bus
+n03513137 helmet
+n03990474 pot
+n07557434 dish
+n09820263 athlete
+n04100174 rod
+n07611358 frozen dessert
+n04571292 weight
+n09287968 geological formation
+n03414162 game equipment
+n04194289 ship
+n04015204 protective garment
+n07829412 sauce
+n01495701 ray
+n07582609 dip
+n07800740 fodder
+n03446832 golf equipment
+n03528263 home appliance
+n06874019 light
+n03419014 garment
+n03825080 nightwear
+n07560652 fare
+n03472232 gymnastic apparatus
+n04185071 sharpener
+n01692864 lacertid lizard
+n04509592 uniform
+n11669921 flower
+n04264914 spacecraft
+n04285622 sports implement
+n02316707 echinoderm
+n03441112 glove
+n04235291 sled
+n03619396 kit
+n03678362 litter
+n04377057 system
+n02942699 camera
+n02605316 butterfly fish
+n01697178 crocodile
+n07612996 pudding
+n04099429 rocket
+n01767661 arthropod
+n15074962 tissue
+n03510583 heavier-than-air craft
+n01940736 mollusk
+n03035510 cistern
+n03906997 pen
+n04447443 toiletry
+n07891726 wine
+n07680932 bun
+n07579575 entree
+n01703569 ceratopsian
+n04341686 structure
+n07681926 cracker
+n01674990 gecko
+n02652668 plectognath
+n03880531 pan
+n07930554 punch
+n02642644 scorpaenid
+n03122748 covering
+n03540267 hosiery
+n03613592 key
+n01861778 mammal
+n01687665 agamid
+n04077734 rescue equipment
+n01726692 snake
+n03450516 gown
+n04125853 safety belt
+n03257586 duplicator
+n03837422 oar
+n03039947 cleaning implement
+n02807260 bath linen
+n01662784 turtle
+n01629276 salamander
+n03896233 passenger train
+n06595351 magazine
+n01922303 worm
+n03294833 eraser
+n01691951 venomous lizard
+n03309808 fabric
+n01503061 bird
+n06793231 sign
+n03101156 cooker
+n01482330 shark
+n02638596 ganoid
+n04500060 turner
+n10401829 participant
+n07882497 concoction
+n03666917 lighter-than-air craft
+n03236735 dress
+n07929519 coffee
+n10019552 diver
+n01676755 iguanid
+n03094503 container
+n03151500 cushion
+n02858304 boat
+n09214060 bar
+n03241093 drill rig
+n01693783 chameleon
+n03497657 hat
+n02512938 food fish
+n01694709 monitor
+n01428580 soft-finned fish
