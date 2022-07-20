@@ -1,7 +1,7 @@
 # CoSSL: Co-Learning of Representation and Classifier for Imbalanced Semi-Supervised Learning
 [![LICENSE](https://img.shields.io/badge/license-MIT-green?style=flat-square)](https://github.com/YUE-FAN/CoSSL/blob/main/LICENSE)
 [![Python](https://img.shields.io/badge/python-3.7%20-blue.svg?style=flat-square&logo=python&color=3776AB)](https://www.python.org/)
-[![PyTorch](https://img.shields.io/badge/pytorch-1.0.0-%237732a8?style=flat-square&logo=PyTorch&color=EE4C2C)](https://pytorch.org/)
+[![PyTorch](https://img.shields.io/badge/pytorch-1.11.0-%237732a8?style=flat-square&logo=PyTorch&color=EE4C2C)](https://pytorch.org/)
 
 This repository contains the PyTorch implementation for the [CVPR 2022](http://cvpr2022.thecvf.com/) Paper ["CoSSL: Co-Learning of Representation and Classifier for Imbalanced Semi-Supervised Learning"](https://arxiv.org/abs/2112.04564) by [Yue Fan](https://www.mpi-inf.mpg.de/departments/computer-vision-and-machine-learning/people/yue-fan), [Dengxin Dai](https://people.ee.ethz.ch/~daid/), [Anna Kukleva](https://annusha.github.io/), and [Bernt Schiele](https://www.mpi-inf.mpg.de/departments/computer-vision-and-multimodal-computing/people/bernt-schiele/).
 
