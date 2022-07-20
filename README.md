@@ -10,12 +10,15 @@ If you have any questions on this repository or the related paper, feel free to 
 
 #### Summary
 
-* [Introduction](#introduction)
-* [Installation](#installation)
-* [Running Experiments](#running-experiments)
-* [Performance](#performance)
-* [Citation](#citation)
-* [Acknowledgements](#acknowledgements)
+- [CoSSL: Co-Learning of Representation and Classifier for Imbalanced Semi-Supervised Learning](#cossl-co-learning-of-representation-and-classifier-for-imbalanced-semi-supervised-learning)
+      - [Summary](#summary)
+  - [Introduction](#introduction)
+  - [Installation](#installation)
+  - [Running Experiments](#running-experiments)
+    - [Example](#example)
+  - [Performance](#performance)
+  - [Citation](#citation)
+  - [Acknowledgements](#acknowledgements)
 
 ## Introduction
 
@@ -31,11 +34,10 @@ Standard semi-supervised learning (SSL) using class-balanced datasets has shown 
 ## Installation
 
 * `python 3.7`
-* `pytorch == 1.0.0`
-* `torchvision`
+* `pytorch-1.11.0`
+* `cuda11cudnn8`
 * `randAugment (Pytorch re-implementation: https://github.com/ildoonet/pytorch-randaugment)`
-* `torchvision`
-* `progressbar`
+* `progress`
 
 ## Running Experiments
 

@@ -43,27 +43,29 @@ parser.add_argument('--lr', '--learning-rate', default=0.002, type=float,
 parser.add_argument('--resume', default='', type=str, metavar='PATH',
                     help='path to latest checkpoint (default: none)')
 parser.add_argument('--out', default='result',
-                        help='Directory to output the result')
+                    help='Directory to output the result')
 # Method options
 parser.add_argument('--dataset', type=str, default='cifar10',
-                        help='cifar10 or cifar100')
+                    help='cifar10 or cifar100')
 parser.add_argument('--num_max', type=int, default=1500,
-                        help='Number of samples in the maximal class')
+                    help='Number of samples in the maximal class')
 parser.add_argument('--ratio', type=float, default=2.0,
-                        help='Relative size between labeled and unlabeled data')
+                    help='Relative size between labeled and unlabeled data')
 parser.add_argument('--imb_ratio_l', type=int, default=100,
-                        help='Imbalance ratio for labeled data')
+                    help='Imbalance ratio for labeled data')
 parser.add_argument('--imb_ratio_u', type=int, default=100,
-                        help='Imbalance ratio for unlabeled data')
-parser.add_argument('--step', action='store_true', help='Type of class-imbalance')
+                    help='Imbalance ratio for unlabeled data')
+parser.add_argument('--step', action='store_true',
+                    help='Type of class-imbalance')
 parser.add_argument('--val-iteration', type=int, default=500,
-                        help='Frequency for the evaluation')
+                    help='Frequency for the evaluation')
 # Hyperparameters for FixMatch
-parser.add_argument('--tau', default=0.95, type=float, help='hyper-parameter for pseudo-label of FixMatch')
+parser.add_argument('--tau', default=0.95, type=float,
+                    help='hyper-parameter for pseudo-label of FixMatch')
 parser.add_argument('--ema-decay', default=0.999, type=float)
 # Miscs
 parser.add_argument('--manualSeed', type=int, default=0, help='manual seed')
-#Device options
+# Device options
 parser.add_argument('--gpu', default='0', type=str,
                     help='id(s) for CUDA_VISIBLE_DEVICES')
 
@@ -103,8 +105,10 @@ def main():
     # Data
     print(f'==> Preparing imbalanced {args.dataset}')
 
-    N_SAMPLES_PER_CLASS = make_imb_data(args.num_max, num_class, args.imb_ratio_l)
-    U_SAMPLES_PER_CLASS = make_imb_data(args.ratio * args.num_max, num_class, args.imb_ratio_u)
+    N_SAMPLES_PER_CLASS = make_imb_data(
+        args.num_max, num_class, args.imb_ratio_l)
+    U_SAMPLES_PER_CLASS = make_imb_data(
+        args.ratio * args.num_max, num_class, args.imb_ratio_u)
 
     if args.dataset == 'cifar10':
         train_labeled_set, train_unlabeled_set, test_set = dataset_cifar10.get_cifar10('/BS/databases00/cifar-10',
@@ -121,7 +125,8 @@ def main():
                                           drop_last=True)
     unlabeled_trainloader = data.DataLoader(train_unlabeled_set, batch_size=args.batch_size, shuffle=True, num_workers=0,
                                             drop_last=True)
-    test_loader = data.DataLoader(test_set, batch_size=args.batch_size, shuffle=False, num_workers=4)
+    test_loader = data.DataLoader(
+        test_set, batch_size=args.batch_size, shuffle=False, num_workers=4)
 
     # Model
     print("==> creating WRN-28-2")
@@ -139,7 +144,8 @@ def main():
     model = create_model()
     ema_model = create_model(ema=True)
 
-    print('Total params: %.2fM' % (sum(p.numel() for p in model.parameters()) / 1000000.0))
+    print('Total params: %.2fM' % (sum(p.numel()
+          for p in model.parameters()) / 1000000.0))
 
     train_criterion = FixMatch_Loss()
     criterion = nn.CrossEntropyLoss()
@@ -152,14 +158,16 @@ def main():
     if args.resume:
         # Load checkpoint.
         print('==> Resuming from checkpoint..')
-        assert os.path.isfile(args.resume), 'Error: no checkpoint directory found!'
+        assert os.path.isfile(
+            args.resume), 'Error: no checkpoint directory found!'
         args.out = os.path.dirname(args.resume)
         checkpoint = torch.load(args.resume)
         start_epoch = checkpoint['epoch']
         model.load_state_dict(checkpoint['state_dict'])
         ema_model.load_state_dict(checkpoint['ema_state_dict'])
         optimizer.load_state_dict(checkpoint['optimizer'])
-        logger = Logger(os.path.join(args.out, 'log.txt'), title=title, resume=True)
+        logger = Logger(os.path.join(args.out, 'log.txt'),
+                        title=title, resume=True)
     else:
         logger = Logger(os.path.join(args.out, 'log.txt'), title=title)
         logger.set_names(['Train Loss', 'Train Loss X', 'Train Loss U', 'Mask', 'Total Acc.', 'Used Acc.',
@@ -170,7 +178,8 @@ def main():
 
     # Main function
     for epoch in range(start_epoch, args.epochs):
-        print('\nEpoch: [%d | %d] LR: %f' % (epoch + 1, args.epochs, state['lr']))
+        print('\nEpoch: [%d | %d] LR: %f' %
+              (epoch + 1, args.epochs, state['lr']))
 
         # Training part
         *train_info, = train(labeled_trainloader, unlabeled_trainloader,
@@ -178,7 +187,8 @@ def main():
                              train_criterion, epoch, use_cuda)
 
         # Evaluation part
-        test_loss, test_acc, test_cls, test_gm = validate(test_loader, ema_model, criterion, use_cuda, mode='Test Stats ')
+        test_loss, test_acc, test_cls, test_gm = validate(
+            test_loader, ema_model, criterion, use_cuda, mode='Test Stats ')
 
         # Append logger file
         logger.append([*train_info, test_loss, test_acc, test_gm])
@@ -230,17 +240,20 @@ def train(labeled_trainloader, unlabeled_trainloader, model, optimizer, ema_opti
             inputs_x, targets_x, _ = labeled_train_iter.next()
 
         try:
-            (inputs_u, inputs_u2, inputs_u3), gt_targets_u, idx_u = unlabeled_train_iter.next()
+            (inputs_u, inputs_u2,
+             inputs_u3), gt_targets_u, idx_u = unlabeled_train_iter.next()
         except:
             unlabeled_train_iter = iter(unlabeled_trainloader)
-            (inputs_u, inputs_u2, inputs_u3), gt_targets_u, idx_u = unlabeled_train_iter.next()
+            (inputs_u, inputs_u2,
+             inputs_u3), gt_targets_u, idx_u = unlabeled_train_iter.next()
 
         # Measure data loading time
         data_time.update(time.time() - end)
         batch_size = inputs_x.size(0)
 
         # Transform label to one-hot
-        targets_x = torch.zeros(batch_size, num_class).scatter_(1, targets_x.view(-1,1), 1)
+        targets_x = torch.zeros(batch_size, num_class).scatter_(
+            1, torch.tensor(targets_x, dtype=torch.int64).view(-1, 1), 1)
         if use_cuda:
             inputs_x, targets_x = inputs_x.cuda(), targets_x.cuda(non_blocking=True)
             inputs_u, inputs_u2, inputs_u3 = inputs_u.cuda(), inputs_u2.cuda(), inputs_u3.cuda()
@@ -256,11 +269,13 @@ def train(labeled_trainloader, unlabeled_trainloader, model, optimizer, ema_opti
 
             total_acc = p_hat.cpu().eq(gt_targets_u).float().view(-1)
             if select_mask.sum() != 0:
-                used_c.update(total_acc[select_mask != 0].mean(0).item(), select_mask.sum())
+                used_c.update(total_acc[select_mask != 0].mean(
+                    0).item(), select_mask.sum())
             mask_prob.update(select_mask.mean().item())
             total_c.update(total_acc.mean(0).item())
 
-            p_hat = torch.zeros(batch_size, num_class).cuda().scatter_(1, p_hat.view(-1, 1), 1)
+            p_hat = torch.zeros(batch_size, num_class).cuda().scatter_(
+                1, p_hat.view(-1, 1), 1)
             select_mask = torch.cat([select_mask, select_mask], 0)
 
         all_inputs = torch.cat([inputs_x, inputs_u2, inputs_u3], dim=0)
@@ -270,7 +285,8 @@ def train(labeled_trainloader, unlabeled_trainloader, model, optimizer, ema_opti
         logits_x = all_outputs[:batch_size]
         logits_u = all_outputs[batch_size:]
 
-        Lx, Lu = criterion(logits_x, all_targets[:batch_size], logits_u, all_targets[batch_size:], select_mask)
+        Lx, Lu = criterion(
+            logits_x, all_targets[:batch_size], logits_u, all_targets[batch_size:], select_mask)
         loss = Lx + Lu
 
         # record loss
@@ -290,20 +306,20 @@ def train(labeled_trainloader, unlabeled_trainloader, model, optimizer, ema_opti
 
         # plot progress
         bar.suffix = '({batch}/{size}) Data: {data:.3f}s | Batch: {bt:.3f}s | Total: {total:} | ETA: {eta:} | ' \
-                      'Loss: {loss:.4f} | Loss_x: {loss_x:.4f} | Loss_u: {loss_u:.4f} | Mask: {mask:.4f}| ' \
-                      'Use_acc: {used_acc:.4f}'.format(
-                    batch=batch_idx + 1,
-                    size=args.val_iteration,
-                    data=data_time.avg,
-                    bt=batch_time.avg,
-                    total=bar.elapsed_td,
-                    eta=bar.eta_td,
-                    loss=losses.avg,
-                    loss_x=losses_x.avg,
-                    loss_u=losses_u.avg,
-                    mask=mask_prob.avg,
-                    used_acc=used_c.avg,
-                    )
+            'Loss: {loss:.4f} | Loss_x: {loss_x:.4f} | Loss_u: {loss_u:.4f} | Mask: {mask:.4f}| ' \
+            'Use_acc: {used_acc:.4f}'.format(
+                batch=batch_idx + 1,
+                size=args.val_iteration,
+                data=data_time.avg,
+                bt=batch_time.avg,
+                total=bar.elapsed_td,
+                eta=bar.eta_td,
+                loss=losses.avg,
+                loss_x=losses_x.avg,
+                loss_u=losses_u.avg,
+                mask=mask_prob.avg,
+                used_acc=used_c.avg,
+            )
         bar.next()
     bar.finish()
 
@@ -364,17 +380,17 @@ def validate(valloader, model, criterion, use_cuda, mode):
 
             # plot progress
             bar.suffix = '({batch}/{size}) Data: {data:.3f}s | Batch: {bt:.3f}s | Total: {total:} | ETA: {eta:} | ' \
-                          'Loss: {loss:.4f} | top1: {top1: .4f} | top5: {top5: .4f}'.format(
-                        batch=batch_idx + 1,
-                        size=len(valloader),
-                        data=data_time.avg,
-                        bt=batch_time.avg,
-                        total=bar.elapsed_td,
-                        eta=bar.eta_td,
-                        loss=losses.avg,
-                        top1=top1.avg,
-                        top5=top5.avg,
-                        )
+                'Loss: {loss:.4f} | top1: {top1: .4f} | top5: {top5: .4f}'.format(
+                    batch=batch_idx + 1,
+                    size=len(valloader),
+                    data=data_time.avg,
+                    bt=batch_time.avg,
+                    total=bar.elapsed_td,
+                    eta=bar.eta_td,
+                    loss=losses.avg,
+                    top1=top1.avg,
+                    top5=top5.avg,
+                )
             bar.next()
         bar.finish()
 
