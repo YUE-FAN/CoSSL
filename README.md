@@ -32,7 +32,7 @@ Standard semi-supervised learning (SSL) using class-balanced datasets has shown 
 
 * `python 3.7`
 * `pytorch == 1.0.0`
-* `torchvision`
+* `torchvision == 0.2.2.post3`
 * `randAugment (Pytorch re-implementation: https://github.com/ildoonet/pytorch-randaugment)`
 * `torchvision`
 * `progressbar`
@@ -57,20 +57,24 @@ python train_cifar_fix_cossl.py --ratio 2 --num_max 1500 --imb_ratio_l 150 --imb
 
 ## Performance
 
-| Test Acc. (%)      | CIFAR-10-LT γ=50 | CIFAR-10-LT γ=100 | CIFAR-10-LT γ=150 |
-|--------------------|------------------|-------------------|-------------------|
-| `MixMatch+CoSSL`   | `80.3 ± 0.31`    | `76.4 ± 1.14`     | `73.5 ± 1.25`     |
-| `ReMixMatch+CoSSL` | `87.7 ± 0.21`    | `84.1 ± 0.56`     | `81.3 ± 0.83`     |
-| `FixMatch+CoSSL`   | `86.8 ± 0.30`    | `83.2 ± 0.49`     | `80.3 ± 0.55`     |
+| Test Acc. (%)      |  CIFAR-10-LT γ=50  |  CIFAR-10-LT γ=100  |  CIFAR-10-LT γ=150  |
+|--------------------|:------------------:|:-------------------:|:-------------------:|
+| `MixMatch+CoSSL`   |   `80.3 ± 0.31`    |    `76.4 ± 1.14`    |    `73.5 ± 1.25`    |
+| `ReMixMatch+CoSSL` |   `87.7 ± 0.21`    |    `84.1 ± 0.56`    |    `81.3 ± 0.83`    |
+| `FixMatch+CoSSL`   |   `86.8 ± 0.30`    |    `83.2 ± 0.49`    |    `80.3 ± 0.55`    |
 
-| Test Acc. (%)      | CIFAR-100-LT γ=20 | CIFAR-100-LT γ=50 | CIFAR-100-LT γ=100 |
-|--------------------|-------------------|-------------------|--------------------|
-| `ReMixMatch+CoSSL` | `55.8 ± 0.62`     | `48.9 ± 0.61`     | `44.1 ± 0.59`      |
-| `FixMatch+CoSSL`   | `53.9 ± 0.78`     | `47.6 ± 0.57`     | `43.0 ± 0.61`      |
+| Test Acc. (%)      |  CIFAR-100-LT γ=20  | CIFAR-100-LT γ=50  |  CIFAR-100-LT γ=100  |
+|--------------------|:-------------------:|:-------------------|:--------------------:|
+| `ReMixMatch+CoSSL` |    `55.8 ± 0.62`    | `48.9 ± 0.61`      |    `44.1 ± 0.59`     |
+| `FixMatch+CoSSL`   |    `53.9 ± 0.78`    | `47.6 ± 0.57`      |    `43.0 ± 0.61`     |
 
-| Test Acc. (%)      | Food-101-LT γ=50 | Food-101-LT γ=100 |
-|--------------------|------------------|-------------------|
-| `FixMatch+CoSSL`   | `49.0`           | `40.4`            |
+| Test Acc. (%)      |  Food-101-LT γ=50  |  Food-101-LT γ=100  |
+|--------------------|:------------------:|:-------------------:|
+| `FixMatch+CoSSL`   |       `49.0`       |       `40.4`        |
+
+| Test Acc. (%)      |  Small-ImageNet-127 32x32  |  Small-ImageNet-127 64x64  |
+|--------------------|:--------------------------:|:--------------------------:|
+| `FixMatch+CoSSL`   |           `43.7`           |           `54.4`           |
 
 * The performance for the PyTorch version is under checking.
 
