@@ -58,9 +58,7 @@ imbalance_ratio_list = [512, 256, 150, 128, 64, 32, 16, 8, 4, 2, 1, -2, -4, -8, 
 model_path_list = [
 
 # add paths to your checkpoints
-'/BS/yfan/work/trained-models/darp/cifar10/fixmatch/teacher_head_checkpoint401_ablation/wrn28_N1500_r150_originalP_EMAenc_lam06',
-
-'/BS/yfan/work/trained-models/darp/cifar10/softmatch/DA_type/wrn28_N1500_r150_seed1_gt',
+    
 ]
 
 
